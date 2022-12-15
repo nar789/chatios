@@ -63,6 +63,8 @@ struct Main {
     @State private var showAlertPage = false
     @State private var showChatPage = false
     @State private var goBackMainClub = false
+    @State private var showChatPickerPage = false
+    @State private var showChatComposerPage = false
     
     
     @StateObject var userManager = UserManager.shared
@@ -79,208 +81,9 @@ extension Main: View {
     
     var body: some View {
         NavigationView {
-            TabView(selection: $selection) {
-                
-                HomePage(tabtype: tabtype_1, tabs: tabs_1)
-                    .tabItem {
-                        Image(homeTabImage).renderingMode(.template)
-                        Text("h_home".localized)
-                    }
-                    .tag(bTab.home)
-                
-                MainCommunityPage()
-                    .tabItem {
-                        Image(communityTabImage).renderingMode(.template)
-                        Text("k_community".localized)
-                    }
-                    .tag(bTab.community)
-                
-                MainClubPage()
-                    .tabItem {
-                        Image(clubTabImage).renderingMode(.template)
-                        Text("k_club".localized)
-                    }
-                    .tag(bTab.club)
-                
-                ChatPage()
-                    .tabItem {
-                        Image(chatTabImage).renderingMode(.template)
-                        Text(chatPageTitle)
-                    }
-                    .tag(bTab.chat)
-                
-                MenuPage()
-                    .tabItem {
-                        Image("icon_outline_hamburger")
-                            .renderingMode(.template)
-                        Text("m_menu".localized)
-                    }
-                    .tag(bTab.menu)
-            }
-            .onAppear(perform: {
-                
-                if isFirstLoaded {
-                    isFirstLoaded = false
-                    selection = .home
-                }
-            })
-            .onChange(of: selection, perform: { newValue in
-                if newValue == .menu {
-                    leftItems = []
-                    rightItems = [.Setting]
-                    foregroundColor = .black
-                    title = ""
-                    navigationBarColor = .bgLightGray50
-                    uiStatusBarStyle = .darkContent
-                    
-                    // set bottomTab's item
-                    homeTabImage = "icon_outline_home_n"
-                    communityTabImage = "icon_outline_community"
-                    clubTabImage = "icon_outline_club"
-                    chatTabImage = "icon_outline_chats_n"
-                }
-                else if newValue == .home {
-                    leftItems = [.Logo]
-                    rightItems = [.Present, .AlarmOn]
-                    foregroundColor = .gray25
-                    title = ""
-                    navigationBarColor = .primary300
-                    uiStatusBarStyle = .lightContent
-                    
-                    // set bottomTab's item
-                    homeTabImage = "icon_fill_home_t"
-                    communityTabImage = "icon_outline_community"
-                    clubTabImage = "icon_outline_club"
-                    chatTabImage = "icon_outline_chats_n"
-                }
-                else if newValue == .community {
-                    leftItems = []
-                    rightItems = [.Search, .Profile]
-                    foregroundColor = .black
-                    title = "k_community".localized
-                    navigationBarColor = .bgLightGray50
-                    uiStatusBarStyle = .darkContent
-                    
-                    // set bottomTab's item
-                    homeTabImage = "icon_outline_home_n"
-                    communityTabImage = "icon_fill_community"
-                    clubTabImage = "icon_outline_club"
-                    chatTabImage = "icon_outline_chats_n"
-                }
-                else if newValue == .chat {
-                    leftItems = []
-                    rightItems = [.Search, .Profile]
-                    foregroundColor = .black
-                    title = chatPageTitle
-                    navigationBarColor = .bgLightGray50
-                    uiStatusBarStyle = .darkContent
-                    
-                    // set bottomTab's item
-                    homeTabImage = "icon_outline_home_n"
-                    communityTabImage = "icon_outline_community"
-                    clubTabImage = "icon_outline_club"
-                    chatTabImage = "icon_fill_chats_t"
-                }
-                else {
-                    leftItems = []
-                    rightItems = [.Plus, .Search]
-                    foregroundColor = .black
-                    title = "k_club".localized
-                    navigationBarColor = .bgLightGray50
-                    uiStatusBarStyle = .darkContent
-                    
-                    // set bottomTab's item
-                    homeTabImage = "icon_outline_home_n"
-                    communityTabImage = "icon_outline_community"
-                    clubTabImage = "icon_fill_club"
-                    chatTabImage = "icon_outline_chats_n"
-                }
-            })
-            .foregroundColor(Color.stateEnableGray900)
-            .accentColor(Color.primary500)
-            .font(.caption21116Regular)
-            .navigationType(
-                leftItems: leftItems,
-                rightItems: rightItems,
-                leftItemsForegroundColor: foregroundColor,
-                rightItemsForegroundColor: foregroundColor,
-                title: title,
-                onPress: { buttonType in
-                    if buttonType == .Setting {
-                        
-                        //MoreManager.shared.show.bottomSheet = true
-                        if userManager.isLogin {
-                            showSettingPage = true
-                        }
-                    }
-                    else if buttonType == .Search {
-                        if title == "k_community".localized {
-                            showCommunitySearchPage = true
-                        } else if title == "k_club".localized {
-                            showClubSearchPage = true
-                        }
-                    }
-                    else if buttonType == .Profile && title == "k_community".localized {
-                        showCommunityMyPage = true
-                    }
-                    else if buttonType == .Plus {
-                        showClubNewClubPage = true
-                    }
-                    else if buttonType == .Present {
-                        showEventPage = true
-                    }
-                    else if buttonType == .AlarmOn {
-                        showAlertPage = true
-                    }
-                })
-            .navigationBarBackground {
-                navigationBarColor.shadow(radius: 0)
-                //Color.bgLightGray50.shadow(radius: 0)
-            }
-//            .statusBarStyle(style: uiStatusBarStyle)
-            
-            
-            //push
-            .background(
-                NavigationLink("", isActive: $showSettingPage) {
-                    SettingPage()
-                }.hidden()
-            )
-            .background(
-                NavigationLink("", isActive: $showCommunitySearchPage) {
-                    MainCommunitySearchPage()
-                }.hidden()
-            )
-            .background(
-                NavigationLink("", isActive: $showClubSearchPage) {
-                    MainClubSearchPage()
-                }.hidden()
-            )
-            .background(
-                NavigationLink("", isActive: $showCommunityMyPage) {
-                    MainCommunityMyPage()
-                }.hidden()
-            )
-            .background(
-                NavigationLink("", isActive: $showClubNewClubPage) {
-                    MainClubNewClubPage(goBackMainClub: $goBackMainClub)
-                }.hidden()
-            )
-            .background(
-                NavigationLink("", isActive: $showClubProfilePage) {
-                    HomeClubPage(clubId: .constant(""), state: .constant(false))
-                }.hidden()
-            )
-            .background(
-                NavigationLink("", isActive: $showEventPage) {
-                    EventPage()
-                }.hidden()
-            )
-            .background(
-                NavigationLink("", isActive: $showAlertPage) {
-                    AlertPage()
-                }.hidden()
-            )
+       
+            mainNavigationView
+               
         }
         .onChange(
             of: goBackMainClub,
@@ -298,9 +101,221 @@ extension Main: View {
             showClubProfilePage = false
             showEventPage = false
             showAlertPage = false
+            showChatPickerPage = false
+            showChatComposerPage = false
             
             selection = .home
         }
+    }
+    
+    var mainNavigationView : some View {
+        mainTabView
+        .background {
+            NavigationLink("", isActive: $showSettingPage) {
+                SettingPage()
+            }.hidden()
+            
+            NavigationLink("", isActive: $showCommunitySearchPage) {
+                MainCommunitySearchPage()
+            }.hidden()
+            
+            NavigationLink("", isActive: $showClubSearchPage) {
+                MainClubSearchPage()
+            }.hidden()
+            
+            NavigationLink("", isActive: $showCommunityMyPage) {
+                MainCommunityMyPage()
+            }.hidden()
+            
+            NavigationLink("", isActive: $showClubNewClubPage) {
+                MainClubNewClubPage(goBackMainClub: $goBackMainClub)
+            }.hidden()
+            
+            NavigationLink("", isActive: $showClubProfilePage) {
+                HomeClubPage(clubId: .constant(""), state: .constant(false))
+            }.hidden()
+            
+            NavigationLink("", isActive: $showEventPage) {
+                EventPage()
+            }.hidden()
+            
+            NavigationLink("", isActive: $showAlertPage) {
+                AlertPage()
+            }.hidden()
+            
+            NavigationLink("", isActive: $showChatPickerPage) {
+                ChatPickerPage(showChatComposerPage:$showChatComposerPage)
+            }.hidden()
+            
+            NavigationLink("", isActive: $showChatComposerPage) {
+                ChatComposerPage()
+            }.hidden()
+        }
+    }
+    
+    var mainTabView : some View {
+        TabView(selection: $selection) {
+            
+            HomePage(tabtype: tabtype_1, tabs: tabs_1)
+                .tabItem {
+                    Image(homeTabImage).renderingMode(.template)
+                    Text("h_home".localized)
+                }
+                .tag(bTab.home)
+            
+            MainCommunityPage()
+                .tabItem {
+                    Image(communityTabImage).renderingMode(.template)
+                    Text("k_community".localized)
+                }
+                .tag(bTab.community)
+            
+            MainClubPage()
+                .tabItem {
+                    Image(clubTabImage).renderingMode(.template)
+                    Text("k_club".localized)
+                }
+                .tag(bTab.club)
+            
+            ChatPage(showChatComposerPage: $showChatComposerPage)
+                .tabItem {
+                    Image(chatTabImage).renderingMode(.template)
+                    Text(chatPageTitle)
+                }
+                .tag(bTab.chat)
+            
+            MenuPage()
+                .tabItem {
+                    Image("icon_outline_hamburger")
+                        .renderingMode(.template)
+                    Text("m_menu".localized)
+                }
+                .tag(bTab.menu)
+        }
+        .onAppear(perform: {
+            
+            if isFirstLoaded {
+                isFirstLoaded = false
+                selection = .home
+            }
+        })
+        .onChange(of: selection, perform: { newValue in
+            if newValue == .menu {
+                leftItems = []
+                rightItems = [.Setting]
+                foregroundColor = .black
+                title = ""
+                navigationBarColor = .bgLightGray50
+                uiStatusBarStyle = .darkContent
+                
+                // set bottomTab's item
+                homeTabImage = "icon_outline_home_n"
+                communityTabImage = "icon_outline_community"
+                clubTabImage = "icon_outline_club"
+                chatTabImage = "icon_outline_chats_n"
+            }
+            else if newValue == .home {
+                leftItems = [.Logo]
+                rightItems = [.Present, .AlarmOn]
+                foregroundColor = .gray25
+                title = ""
+                navigationBarColor = .primary300
+                uiStatusBarStyle = .lightContent
+                
+                // set bottomTab's item
+                homeTabImage = "icon_fill_home_t"
+                communityTabImage = "icon_outline_community"
+                clubTabImage = "icon_outline_club"
+                chatTabImage = "icon_outline_chats_n"
+            }
+            else if newValue == .community {
+                leftItems = []
+                rightItems = [.Search, .Profile]
+                foregroundColor = .black
+                title = "k_community".localized
+                navigationBarColor = .bgLightGray50
+                uiStatusBarStyle = .darkContent
+                
+                // set bottomTab's item
+                homeTabImage = "icon_outline_home_n"
+                communityTabImage = "icon_fill_community"
+                clubTabImage = "icon_outline_club"
+                chatTabImage = "icon_outline_chats_n"
+            }
+            else if newValue == .chat {
+                leftItems = []
+                rightItems = [.Plus]
+                foregroundColor = .black
+                title = chatPageTitle
+                navigationBarColor = .bgLightGray50
+                uiStatusBarStyle = .darkContent
+                
+                // set bottomTab's item
+                homeTabImage = "icon_outline_home_n"
+                communityTabImage = "icon_outline_community"
+                clubTabImage = "icon_outline_club"
+                chatTabImage = "icon_fill_chats_t"
+            }
+            else {
+                leftItems = []
+                rightItems = [.Plus, .Search]
+                foregroundColor = .black
+                title = "k_club".localized
+                navigationBarColor = .bgLightGray50
+                uiStatusBarStyle = .darkContent
+                
+                // set bottomTab's item
+                homeTabImage = "icon_outline_home_n"
+                communityTabImage = "icon_outline_community"
+                clubTabImage = "icon_fill_club"
+                chatTabImage = "icon_outline_chats_n"
+            }
+        })
+        .foregroundColor(Color.stateEnableGray900)
+        .accentColor(Color.primary500)
+        .font(.caption21116Regular)
+        .navigationType(
+            leftItems: leftItems,
+            rightItems: rightItems,
+            leftItemsForegroundColor: foregroundColor,
+            rightItemsForegroundColor: foregroundColor,
+            title: title,
+            onPress: { buttonType in
+                if buttonType == .Setting {
+                    
+                    //MoreManager.shared.show.bottomSheet = true
+                    if userManager.isLogin {
+                        showSettingPage = true
+                    }
+                }
+                else if buttonType == .Search {
+                    if title == "k_community".localized {
+                        showCommunitySearchPage = true
+                    } else if title == "k_club".localized {
+                        showClubSearchPage = true
+                    }
+                }
+                else if buttonType == .Profile && title == "k_community".localized {
+                    showCommunityMyPage = true
+                }
+                else if buttonType == .Plus && title == chatPageTitle {
+                    showChatPickerPage = true
+                }
+                else if buttonType == .Plus {
+                    showClubNewClubPage = true
+                }
+                else if buttonType == .Present {
+                    showEventPage = true
+                }
+                else if buttonType == .AlarmOn {
+                    showAlertPage = true
+                }
+            })
+        .navigationBarBackground {
+            navigationBarColor.shadow(radius: 0)
+            //Color.bgLightGray50.shadow(radius: 0)
+        }
+//            .statusBarStyle(style: uiStatusBarStyle)
     }
 }
 
