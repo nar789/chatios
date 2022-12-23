@@ -81,7 +81,7 @@ struct ChatComposerPage: View {
                         .lineLimit(4)
                         .font(Font.body21420Regular)
                         .foregroundColor(Color.gray800)
-                        .focused($focus, equals:showMessage)
+                        //.focused($focus, equals:showMessage)
                         .frame(maxWidth:.infinity)
                         .padding(20)
                 }

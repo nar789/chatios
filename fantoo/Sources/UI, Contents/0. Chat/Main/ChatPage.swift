@@ -55,7 +55,7 @@ struct ChatPage: View {
         List(0..<10) { i in
             
             ChatListRowView()
-                .listRowSeparator(.hidden)
+                //.listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
                 .listRowInsets(EdgeInsets())
                 .onTapGesture {

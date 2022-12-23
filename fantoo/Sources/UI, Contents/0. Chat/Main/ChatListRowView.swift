@@ -28,7 +28,7 @@ struct ChatListRowView : View {
                                     .resizable()
                                     .frame(width:12, height:12)
                                     .padding(.top, 4)
-                                    .tint(Color.gray400)
+                                    //.tint(Color.gray400)
                             }
                             Text("안녕ㅎㅎ")
                                 .font(Font.caption11218Regular)
@@ -63,7 +63,9 @@ struct ChatListRowView : View {
             }
             
             Spacer().frame(height:10)
-        }.swipeActions {
+        }
+        /*
+        .swipeActions {
             
             Button("채팅방\n나가기") {
                 print("out room")
@@ -83,7 +85,7 @@ struct ChatListRowView : View {
             .tint(Color.primaryDefault)
             .font(Font.caption21116Regular)
             
-        }
+        }*/
         
     }
 }
