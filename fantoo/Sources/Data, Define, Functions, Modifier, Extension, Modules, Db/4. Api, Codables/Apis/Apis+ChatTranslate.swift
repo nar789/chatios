@@ -42,8 +42,9 @@ extension ApisChatTranslate: Moya.TargetType {
     var task: Task {
         switch self {
         case .translate(let id, let text, let user):
-            var m:ApisChatTranslateModelMessage = .init(id: id, text:text, user:user)
-            var p:ApisChatTranslateModel = .init(language: ["en"], messages: [m])
+            let m:ApisChatTranslateModelMessage = .init(id: id, text:text, user:user)
+            let languageCode:String = LanguageManager.shared.getLanguageCode()
+            let p:ApisChatTranslateModel = .init(language: [languageCode], messages: [m])
             return .requestJSONEncodable(p)
         }
     }
