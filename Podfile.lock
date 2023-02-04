@@ -1,0 +1,38 @@
+PODS:
+  - FSPagerView (0.8.3)
+  - Introspect (0.1.4)
+  - JWTDecode (2.4.1)
+  - ScalingHeaderScrollView (0.0.6):
+    - Introspect
+  - SDWebImage (5.15.0):
+    - SDWebImage/Core (= 5.15.0)
+  - SDWebImage/Core (5.15.0)
+  - SDWebImageSwiftUI (2.2.2):
+    - SDWebImage (~> 5.10)
+
+DEPENDENCIES:
+  - FSPagerView
+  - JWTDecode (~> 2.4.1)
+  - ScalingHeaderScrollView
+  - SDWebImageSwiftUI
+
+SPEC REPOS:
+  trunk:
+    - FSPagerView
+    - Introspect
+    - JWTDecode
+    - ScalingHeaderScrollView
+    - SDWebImage
+    - SDWebImageSwiftUI
+
+SPEC CHECKSUMS:
+  FSPagerView: 670405b2f18e2a87fa37f20b00de783e562c25a8
+  Introspect: b62c4dd2063072327c21d618ef2bedc3c87bc366
+  JWTDecode: 4bd4da0cdf0f8154fd467fa48499f34ec057fb88
+  ScalingHeaderScrollView: 4c66d0c03a9fba5b82c937a402afe96eead40da9
+  SDWebImage: 9bec4c5cdd9579e1f57104735ee0c37df274d593
+  SDWebImageSwiftUI: 54ded4115b4ac6cd60b78f61415f86d070892d98
+
+PODFILE CHECKSUM: de7ace228154bdbf396e59276c68d3e221cee57a
+
+COCOAPODS: 1.11.3

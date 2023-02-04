@@ -1,0 +1,47 @@
+/* 
+  default-view.strings
+  fantoo
+
+  Created by mkapps on 2022/06/25.
+  Copyright © 2022 FNS CO., LTD. All rights reserved.
+ 
+ 
+ 
+ 
+ 
+ 
+ import SwiftUI
+
+ struct ChangeNickNamePage: View {
+     
+     private struct sizeInfo {
+         static let padding: CGFloat = 10.0
+     }
+     
+     var body: some View {
+         VStack(spacing: 0) {
+         }
+         .padding(.horizontal, DefineSize.Contents.HorizontalPadding)
+         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+         
+         .background(Color.gray25)
+         .navigationType(leftItems: [.Back], rightItems: [], foregroundColor: .black, title: "setting_profile".localized, onPress: { buttonType in
+         })
+         .navigationBarBackground {
+             Color.gray25
+         }
+         .statusBarStyle(style: .darkContent)
+     }
+ }
+
+
+ struct ChangeNickNamePage_Previews: PreviewProvider {
+     static var previews: some View {
+         ChangeNickNamePage()
+     }
+ }
+ 
+ 
+ 
+*/
+
